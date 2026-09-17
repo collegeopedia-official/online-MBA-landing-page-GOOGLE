@@ -1,3 +1,4 @@
+import { ShieldCheck } from "lucide-react";
 import LeadForm from "../ui/LeadForm.jsx";
 
 export default function Conversion() {
@@ -20,11 +21,22 @@ export default function Conversion() {
         <div className="conversion-form-panel">
           <LeadForm
             id="conversion-form"
-            title="Request Personalised Counselling"
-            subtitle="Tell us a little more so we can guide you better."
-            includeExperience
-            buttonText="REQUEST COUNSELLING"
+            title={
+              <>
+                Request <span>Personalised</span> Counselling
+              </>
+            }
+            subtitle="Share a few details and we'll help you with the best options, completely free."
+            includeEmail={false}
+            buttonText="Request Counselling"
+            variant="hero"
           />
+          <div className="hero-form-trust conversion-form-trust">
+            <ShieldCheck size={18} aria-hidden="true" />
+            <span>100% Free Guidance</span>
+            <span>No Spam</span>
+            <span>Confidential</span>
+          </div>
         </div>
       </div>
     </section>

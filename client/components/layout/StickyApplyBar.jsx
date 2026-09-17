@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ArrowRight, GraduationCap, Hourglass, ShieldCheck, Users, X } from "lucide-react";
+import { ArrowRight, FileText, Headphones, ShieldCheck, X } from "lucide-react";
 import { trackEvent } from "../../utils/tracking.js";
 
 const DISMISS_KEY = "mbaStickyApplyDismissed";
@@ -63,12 +63,14 @@ export default function StickyApplyBar({ onApply, isModalOpen = false }) {
   return (
     <aside className="sticky-apply-bar" aria-label="Apply now">
       <div className="sticky-apply-primary">
-        <span className="sticky-apply-icon">
-          <Hourglass size={24} aria-hidden="true" />
-        </span>
+        <div className="sticky-apply-avatars" aria-hidden="true">
+          <span />
+          <span />
+          <span />
+        </div>
         <div>
-          <strong>Apply in 2 mins</strong>
-          <span>2026 Intake Filling Fast</span>
+          <strong>Get Free MBA Guidance</strong>
+          <span>Our admission experts are here to help.</span>
         </div>
       </div>
 
@@ -76,24 +78,24 @@ export default function StickyApplyBar({ onApply, isModalOpen = false }) {
 
       <div className="sticky-apply-benefits" aria-label="Application benefits">
         <div>
-          <GraduationCap size={23} aria-hidden="true" />
+          <Headphones size={23} aria-hidden="true" />
           <span>
-            <strong>Expert Guidance</strong>
-            <small>From Admission Experts</small>
+            <strong>Expert</strong>
+            <small>Support</small>
+          </span>
+        </div>
+        <div>
+          <FileText size={23} aria-hidden="true" />
+          <span>
+            <strong>No Hidden</strong>
+            <small>Charges</small>
           </span>
         </div>
         <div>
           <ShieldCheck size={23} aria-hidden="true" />
           <span>
-            <strong>100% Free Support</strong>
-            <small>No Hidden Charges</small>
-          </span>
-        </div>
-        <div>
-          <Users size={23} aria-hidden="true" />
-          <span>
-            <strong>Trusted by Students</strong>
-            <small>Across India</small>
+            <strong>100%</strong>
+            <small>Confidential</small>
           </span>
         </div>
       </div>

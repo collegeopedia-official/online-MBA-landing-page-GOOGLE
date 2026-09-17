@@ -13,6 +13,7 @@ import Specializations from "./components/sections/Specializations.jsx";
 import Curriculum from "./components/sections/Curriculum.jsx";
 import CareerOpportunities from "./components/sections/CareerOpportunities.jsx";
 import HiringPartners from "./components/sections/HiringPartners.jsx";
+import Testimonials from "./components/sections/Testimonials.jsx";
 import Audience from "./components/sections/Audience.jsx";
 import Conversion from "./components/sections/Conversion.jsx";
 import AdmissionProcess from "./components/sections/AdmissionProcess.jsx";
@@ -140,7 +141,7 @@ export default function App() {
         <Curriculum />
         <CareerOpportunities onCounsellingClick={handleCounsellingPopupOpen} />
         <HiringPartners />
-        <Audience />
+        <Testimonials />
         <Conversion />
         <AdmissionProcess />
         <Faq />
@@ -148,7 +149,6 @@ export default function App() {
       <Footer />
       <StickyApplyBar onApply={handleCounsellingPopupOpen} isModalOpen={isPopupOpen} />
       <ChatBot />
-      <FloatingWhatsApp />
       {isPopupOpen && !hasSubmittedPopup && (
         <div className="lead-popup" role="dialog" aria-modal="true" aria-label="MBA counselling form">
           <div className="lead-popup-panel" ref={popupRef}>

@@ -42,11 +42,7 @@ export default function Hero() {
         <div className="hero-image-wrap" aria-label="Online MBA professional">
           <div className="hero-image-shape" aria-hidden="true" />
           <img src="/hero-mba-woman.png" alt="Professional learner holding a laptop for Online MBA counselling" />
-          <div className="hero-script" aria-hidden="true">
-            <span>More</span>
-            <span>Than a</span>
-            <span>Degree</span>
-          </div>
+          
           <div className="hero-check" aria-hidden="true" />
           <div className="hero-career-card">
             <span>

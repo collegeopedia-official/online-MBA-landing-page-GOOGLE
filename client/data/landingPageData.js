@@ -151,3 +151,44 @@ export const hiringPartners = [
   { name: "Planet Spark", logo: "https://www.google.com/s2/favicons?domain=planetspark.in&sz=256" },
   { name: "Myntra", logo: "https://www.google.com/s2/favicons?domain=myntra.com&sz=256" }
 ];
+
+export const testimonials = [
+  {
+    name: "Satheesh Nair",
+    role: "Group IT Manager, Al-Murad Group UAE",
+    avatar: "https://i.pravatar.cc/160?img=12",
+    type: "text",
+    quote:
+      "With over 18 years of experience in the IT industry, I needed a programme that could fit around demanding work. The counselling helped me compare options clearly and choose a path that made sense for my career.",
+    action: "Read More"
+  },
+  {
+    name: "Shivangi Gupta",
+    role: "MBA, Jan'25",
+    avatar: "https://i.pravatar.cc/160?img=47",
+    type: "video",
+    media: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=900&q=80",
+    quote:
+      "The admission guidance made the process simple and transparent.",
+    action: "Watch Now"
+  },
+  {
+    name: "Mohd. Aasif Ansari",
+    role: "MBA - HRM Jan 25 Batch",
+    avatar: "https://i.pravatar.cc/160?img=15",
+    type: "text",
+    quote:
+      "I am currently pursuing my MBA online. What motivated me most was the clarity around flexible learning, curriculum, student support and how it could align with my professional goals.",
+    action: "Read More"
+  },
+  {
+    name: "Ayushi Podder",
+    role: "MBA, Jan'25",
+    avatar: "https://i.pravatar.cc/160?img=32",
+    type: "video",
+    media: "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=900&q=80",
+    quote:
+      "The counsellor helped me understand which specialization would fit my background.",
+    action: "Watch Now"
+  }
+];

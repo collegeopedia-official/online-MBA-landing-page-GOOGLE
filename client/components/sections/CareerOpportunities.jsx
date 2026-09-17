@@ -1,19 +1,18 @@
 import {
   ArrowRight,
-  BarChart3,
-  BriefcaseBusiness,
-  Cog,
-  HeartPulse,
-  Landmark,
-  Laptop,
+  BadgeDollarSign,
+  Building2,
+  Code2,
+  Ellipsis,
+  Handshake,
+  Hospital,
   Lock,
-  Monitor,
-  MoreHorizontal,
-  PieChart,
-  ShoppingBag,
+  Megaphone,
+  PackageCheck,
   ShoppingCart,
-  Target,
-  Users
+  Store,
+  UserRoundCheck,
+  Workflow
 } from "lucide-react";
 import Button from "../ui/Button.jsx";
 import { useScrollReveal } from "../../hooks/useScrollReveal.js";
@@ -24,53 +23,53 @@ const careers = [
     title: "Marketing Manager",
     description: "Build brands, lead campaigns and drive business growth.",
     tags: ["Marketing", "Brand Strategy", "Growth"],
-    icon: BarChart3
+    icon: Megaphone
   },
   {
     number: "02",
     title: "Financial Analyst",
     description: "Analyse financial performance and support strategic decisions.",
     tags: ["Finance", "Analytics", "Investment"],
-    icon: PieChart
+    icon: BadgeDollarSign
   },
   {
     number: "03",
     title: "HR Manager",
     description: "Build high-performing teams and manage talent strategy.",
     tags: ["Human Resources", "Leadership", "Talent"],
-    icon: Users
+    icon: UserRoundCheck
   },
   {
     number: "04",
     title: "Operations Manager",
     description: "Improve processes, manage supply chains and ensure business efficiency.",
     tags: ["Operations", "Process Improvement", "Strategy"],
-    icon: Cog
+    icon: Workflow
   },
   {
     number: "05",
     title: "Product Manager",
     description: "Connect technology, customers and business to build impactful products.",
     tags: ["Product", "Technology", "User Experience"],
-    icon: Laptop
+    icon: PackageCheck
   },
   {
     number: "06",
     title: "Business Consultant",
     description: "Help organisations solve complex problems and drive transformation.",
     tags: ["Consulting", "Strategy", "Business Growth"],
-    icon: Target
+    icon: Handshake
   }
 ];
 
 const industries = [
-  { label: "Banking & Finance", icon: Landmark },
-  { label: "IT & Technology", icon: Monitor },
-  { label: "Consulting", icon: BarChart3 },
-  { label: "FMCG", icon: ShoppingBag },
+  { label: "Banking & Finance", icon: Building2 },
+  { label: "IT & Technology", icon: Code2 },
+  { label: "Consulting", icon: Handshake },
+  { label: "FMCG", icon: Store },
   { label: "E-commerce", icon: ShoppingCart },
-  { label: "Healthcare", icon: HeartPulse },
-  { label: "and more", icon: MoreHorizontal }
+  { label: "Healthcare", icon: Hospital },
+  { label: "and more", icon: Ellipsis }
 ];
 
 export default function CareerOpportunities({ onCounsellingClick }) {
