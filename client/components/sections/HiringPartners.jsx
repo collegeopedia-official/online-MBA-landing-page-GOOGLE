@@ -23,6 +23,7 @@ export default function HiringPartners() {
         <div className="hiring-header">
           <div className="section-heading hiring-heading">
             <h2>Our Top Recruiters</h2>
+            <p>Explore the brands and hiring ecosystems where management talent is in demand.</p>
           </div>
           <div className="hiring-controls" aria-label="Hiring partners carousel controls">
             <button type="button" onClick={() => scrollPartners(-1)} aria-label="Previous hiring partners">
@@ -46,7 +47,7 @@ export default function HiringPartners() {
                   event.currentTarget.nextElementSibling.hidden = false;
                 }}
               />
-              <span hidden>{name}</span>
+              <span>{name}</span>
             </article>
           ))}
         </div>

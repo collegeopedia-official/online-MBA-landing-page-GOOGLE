@@ -7,16 +7,11 @@ const DISMISS_KEY = "mbaStickyApplyDismissed";
 export default function StickyApplyBar({ onApply, isModalOpen = false }) {
   const [hasReachedThreshold, setHasReachedThreshold] = useState(false);
   const [isFooterVisible, setIsFooterVisible] = useState(false);
-  const [isDismissed, setIsDismissed] = useState(() => {
-    if (typeof window === "undefined") return false;
-    return sessionStorage.getItem(DISMISS_KEY) === "true";
-  });
+  const [isDismissed, setIsDismissed] = useState(false);
 
   useEffect(() => {
     function updateVisibility() {
-      const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = scrollableHeight > 0 ? window.scrollY / scrollableHeight : 0;
-      const shouldShow = progress >= 0.2;
+      const shouldShow = window.scrollY >= Math.min(360, window.innerHeight * 0.35);
 
       setHasReachedThreshold((current) => (current === shouldShow ? current : shouldShow));
     }
@@ -52,7 +47,7 @@ export default function StickyApplyBar({ onApply, isModalOpen = false }) {
 
   function handleDismiss() {
     trackEvent("sticky_apply_dismiss");
-    sessionStorage.setItem(DISMISS_KEY, "true");
+    sessionStorage.removeItem(DISMISS_KEY);
     setIsDismissed(true);
   }
 

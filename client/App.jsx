@@ -8,6 +8,7 @@ import StickyApplyBar from "./components/layout/StickyApplyBar.jsx";
 import Hero from "./components/sections/Hero.jsx";
 import Benefits from "./components/sections/Benefits.jsx";
 import CourseDetails from "./components/sections/CourseDetails.jsx";
+import ProgramCertificate from "./components/sections/ProgramCertificate.jsx";
 import Specializations from "./components/sections/Specializations.jsx";
 import Curriculum from "./components/sections/Curriculum.jsx";
 import CareerOpportunities from "./components/sections/CareerOpportunities.jsx";
@@ -20,6 +21,7 @@ import LeadForm from "./components/ui/LeadForm.jsx";
 
 const LEAD_POPUP_SUBMITTED_KEY = "mbaLeadPopupSubmitted";
 const POPUP_REPEAT_LIMIT = 2;
+const POPUP_INITIAL_DELAY = 12000;
 const POPUP_REPEAT_DELAY = 25000;
 const popupBenefits = [
   { label: "Personalized Guidance", icon: GraduationCap },
@@ -38,8 +40,14 @@ export default function App() {
 
   useEffect(() => {
     if (!hasSubmittedPopup) {
-      setIsPopupOpen(true);
+      const popupTimer = window.setTimeout(() => {
+        setIsPopupOpen(true);
+      }, POPUP_INITIAL_DELAY);
+
+      return () => window.clearTimeout(popupTimer);
     }
+
+    return undefined;
   }, [hasSubmittedPopup]);
 
   useEffect(() => {
@@ -127,6 +135,7 @@ export default function App() {
         <Hero />
         <Benefits />
         <CourseDetails />
+        <ProgramCertificate />
         <Specializations />
         <Curriculum />
         <CareerOpportunities onCounsellingClick={handleCounsellingPopupOpen} />

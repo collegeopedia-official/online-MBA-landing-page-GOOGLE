@@ -16,11 +16,11 @@ const qualifications = ["Graduate", "Post Graduate", "Final Year Student", "Work
 const specializations = ["Marketing", "Finance", "HR", "Operations", "Business Analytics", "Not sure yet"];
 const experienceOptions = ["0-1 years", "2-4 years", "5-8 years", "8+ years"];
 
-function validate(values, includeExperience) {
+function validate(values, includeExperience, includeEmail) {
   const errors = {};
   if (!values.name.trim()) errors.name = "Full name is required.";
   if (!/^[6-9]\d{9}$/.test(values.phone.trim())) errors.phone = "Enter a valid 10-digit Indian mobile number.";
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email.trim())) errors.email = "Enter a valid email address.";
+  if (includeEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email.trim())) errors.email = "Enter a valid email address.";
   if (!values.qualification) errors.qualification = "Select your highest qualification.";
   if (!values.specialization) errors.specialization = "Select a preferred specialization.";
   if (includeExperience && !values.experience) errors.experience = "Select your work experience.";
@@ -32,6 +32,7 @@ export default function LeadForm({
   title,
   subtitle,
   includeExperience = false,
+  includeEmail = true,
   buttonText = "GET FREE COUNSELLING",
   variant = "default",
   onSubmitSuccess
@@ -40,6 +41,7 @@ export default function LeadForm({
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState(false);
   const isPopup = variant === "popup";
+  const hasIconFields = isPopup || variant === "hero";
 
   function updateField(event) {
     const { name, value } = event.target;
@@ -50,7 +52,7 @@ export default function LeadForm({
 
   function handleSubmit(event) {
     event.preventDefault();
-    const nextErrors = validate(values, includeExperience);
+    const nextErrors = validate(values, includeExperience, includeEmail);
     setErrors(nextErrors);
 
     if (Object.keys(nextErrors).length === 0) {
@@ -65,9 +67,9 @@ export default function LeadForm({
     return (
       <label>
         <span>{label}</span>
-        {isPopup ? (
-          <div className="popup-field-control">
-            <span className="popup-field-icon" aria-hidden="true">
+        {hasIconFields ? (
+          <div className={`${isPopup ? "popup" : "hero"}-field-control`}>
+            <span className={`${isPopup ? "popup" : "hero"}-field-icon`} aria-hidden="true">
               <Icon size={21} />
             </span>
             <input name={name} value={values[name]} onChange={updateField} type={type} {...inputProps} />
@@ -84,9 +86,9 @@ export default function LeadForm({
     return (
       <label>
         <span>{label}</span>
-        {isPopup ? (
-          <div className="popup-field-control">
-            <span className="popup-field-icon" aria-hidden="true">
+        {hasIconFields ? (
+          <div className={`${isPopup ? "popup" : "hero"}-field-control`}>
+            <span className={`${isPopup ? "popup" : "hero"}-field-icon`} aria-hidden="true">
               <Icon size={21} />
             </span>
             <select name={name} value={values[name]} onChange={updateField}>
@@ -114,7 +116,7 @@ export default function LeadForm({
   }
 
   return (
-    <form id={id} className={`lead-form ${isPopup ? "lead-form-popup" : ""}`} onSubmit={handleSubmit} noValidate>
+    <form id={id} className={`lead-form ${isPopup ? "lead-form-popup" : ""} ${variant === "hero" ? "lead-form-hero" : ""}`} onSubmit={handleSubmit} noValidate>
       <div className="form-heading">
         <h3>{title}</h3>
         <p>{subtitle}</p>
@@ -132,14 +134,15 @@ export default function LeadForm({
         maxLength: "10"
       })}
 
-      {renderTextField({
-        name: "email",
-        label: "Email Address",
-        icon: Mail,
-        placeholder: "Enter your email address",
-        type: "email",
-        autoComplete: "email"
-      })}
+      {includeEmail &&
+        renderTextField({
+          name: "email",
+          label: "Email Address",
+          icon: Mail,
+          placeholder: "Enter your email address",
+          type: "email",
+          autoComplete: "email"
+        })}
 
       {renderSelectField({
         name: "qualification",

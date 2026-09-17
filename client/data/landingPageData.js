@@ -21,8 +21,8 @@ import {
 
 export const trustItems = [
   { icon: BadgeCheck, label: "Recognised Programmes" },
-  { icon: UserRoundCheck, label: "Personalised Guidance" },
-  { icon: LockKeyhole, label: "Secure Confidential" }
+  { icon: UserRoundCheck, label: "Expert Counselling" },
+  { icon: LockKeyhole, label: "Better Career Opportunities" }
 ];
 
 export const benefits = [

@@ -1,13 +1,11 @@
 import { PhoneCall } from "lucide-react";
-import Button from "../ui/Button.jsx";
 import WhatsAppIcon from "../ui/WhatsAppIcon.jsx";
-import { getWhatsAppUrl } from "../../utils/contact.js";
-import { scrollToElement, trackEvent } from "../../utils/tracking.js";
+import { getPhoneUrl, getWhatsAppUrl, PHONE_DISPLAY } from "../../utils/contact.js";
+import { trackEvent } from "../../utils/tracking.js";
 
 export default function Header() {
   function handleCta() {
     trackEvent("header_counsellor_click");
-    scrollToElement("hero-form");
   }
 
   function handleWhatsAppClick() {
@@ -31,10 +29,10 @@ export default function Header() {
           >
             <WhatsAppIcon size={21} />
           </a>
-          <Button variant="secondary" onClick={handleCta} className="header-cta" icon={false}>
+          <a className="btn btn-secondary header-cta" href={getPhoneUrl()} onClick={handleCta} aria-label={`Call ${PHONE_DISPLAY}`}>
             <PhoneCall size={17} aria-hidden="true" />
-            <span>Talk to Counsellor</span>
-          </Button>
+            <span>{PHONE_DISPLAY}</span>
+          </a>
         </div>
       </div>
     </header>
