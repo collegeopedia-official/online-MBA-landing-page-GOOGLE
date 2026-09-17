@@ -6721,10 +6721,10 @@ main p,
 .hiring-logo-card {
   position: relative;
   display: grid;
-  min-height: 118px;
+  min-height: 138px;
   align-content: center;
   justify-items: center;
-  gap: 12px;
+  gap: 14px;
   overflow: hidden;
   border: 1px solid #e6e8ed;
   border-radius: 16px;
@@ -6756,14 +6756,14 @@ main p,
 
 .hiring-logo-card img {
   display: block;
-  width: 42px;
-  height: 42px;
-  max-width: 42px;
-  max-height: 42px;
-  border-radius: 12px;
+  width: 66px;
+  height: 66px;
+  max-width: 66px;
+  max-height: 66px;
+  border-radius: 16px;
   object-fit: contain;
   background: #f5f6f8;
-  padding: 8px;
+  padding: 10px;
 }
 
 .hiring-logo-card span {
@@ -6814,7 +6814,7 @@ main p,
 
   .hiring-logo-card {
     flex: 0 0 150px;
-    min-height: 112px;
+    min-height: 132px;
     scroll-snap-align: start;
   }
 }

@@ -35,14 +35,6 @@ export default function Curriculum() {
                     ))}
                   </ul>
 
-                  <div className="semester-visual" aria-hidden="true">
-                    <div>
-                      <span>Strong</span>
-                      <span>Foundations</span>
-                      <span>Brighter Futures</span>
-                    </div>
-                    <BookOpenCheck size={34} />
-                  </div>
                 </div>
               )}
             </article>

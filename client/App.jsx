@@ -136,7 +136,6 @@ export default function App() {
         <Hero />
         <Benefits />
         <CourseDetails />
-        <ProgramCertificate />
         <Specializations />
         <Curriculum />
         <CareerOpportunities onCounsellingClick={handleCounsellingPopupOpen} />
