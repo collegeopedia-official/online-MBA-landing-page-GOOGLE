@@ -35,6 +35,8 @@ export default function LeadForm({
   includeEmail = true,
   buttonText = "GET FREE COUNSELLING",
   variant = "default",
+  onFormActive,
+  onFormInactive,
   onSubmitSuccess
 }) {
   const [values, setValues] = useState(initialFields);
@@ -45,9 +47,20 @@ export default function LeadForm({
 
   function updateField(event) {
     const { name, value } = event.target;
+    onFormActive?.(id);
     setValues((current) => ({ ...current, [name]: value }));
     setErrors((current) => ({ ...current, [name]: "" }));
     setSuccess(false);
+  }
+
+  function handleFocus() {
+    onFormActive?.(id);
+  }
+
+  function handleBlur(event) {
+    if (!event.currentTarget.contains(event.relatedTarget)) {
+      onFormInactive?.(id);
+    }
   }
 
   function handleSubmit(event) {
@@ -59,6 +72,7 @@ export default function LeadForm({
       trackEvent("lead_form_submit", { formId: id, specialization: values.specialization });
       setSuccess(true);
       setValues(initialFields);
+      onFormInactive?.(id);
       onSubmitSuccess?.();
     }
   }
@@ -116,7 +130,14 @@ export default function LeadForm({
   }
 
   return (
-    <form id={id} className={`lead-form ${isPopup ? "lead-form-popup" : ""} ${variant === "hero" ? "lead-form-hero" : ""}`} onSubmit={handleSubmit} noValidate>
+    <form
+      id={id}
+      className={`lead-form ${isPopup ? "lead-form-popup" : ""} ${variant === "hero" ? "lead-form-hero" : ""}`}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
+      onSubmit={handleSubmit}
+      noValidate
+    >
       <div className="form-heading">
         <h3>{title}</h3>
         <p>{subtitle}</p>

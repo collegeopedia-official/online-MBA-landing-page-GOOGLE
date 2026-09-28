@@ -1,7 +1,7 @@
 import { ShieldCheck } from "lucide-react";
 import LeadForm from "../ui/LeadForm.jsx";
 
-export default function Conversion() {
+export default function Conversion({ onStaticFormActive, onStaticFormInactive, onStaticFormSubmitSuccess }) {
   return (
     <section className="conversion-section" data-reveal>
       <div className="container conversion-grid">
@@ -30,6 +30,9 @@ export default function Conversion() {
             includeEmail={false}
             buttonText="Request Counselling"
             variant="hero"
+            onFormActive={onStaticFormActive}
+            onFormInactive={onStaticFormInactive}
+            onSubmitSuccess={onStaticFormSubmitSuccess}
           />
           <div className="hero-form-trust conversion-form-trust">
             <ShieldCheck size={18} aria-hidden="true" />

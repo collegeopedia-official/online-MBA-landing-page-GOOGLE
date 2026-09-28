@@ -2,7 +2,7 @@ import { ArrowUpRight, BarChart3, GraduationCap, ShieldCheck, Sparkles, UsersRou
 import { trustItems } from "../../data/landingPageData.js";
 import LeadForm from "../ui/LeadForm.jsx";
 
-export default function Hero() {
+export default function Hero({ onStaticFormActive, onStaticFormInactive, onStaticFormSubmitSuccess }) {
   return (
     <section id="top" className="hero">
       <div className="container hero-shell">
@@ -70,6 +70,9 @@ export default function Hero() {
             includeEmail={false}
             buttonText="Get Free Counselling"
             variant="hero"
+            onFormActive={onStaticFormActive}
+            onFormInactive={onStaticFormInactive}
+            onSubmitSuccess={onStaticFormSubmitSuccess}
           />
 
           <div className="hero-form-trust">

@@ -24,6 +24,7 @@ const LEAD_POPUP_SUBMITTED_KEY = "mbaLeadPopupSubmitted";
 const POPUP_REPEAT_LIMIT = 2;
 const POPUP_INITIAL_DELAY = 12000;
 const POPUP_REPEAT_DELAY = 25000;
+const STATIC_FORM_IDS = ["hero-form", "conversion-form"];
 const popupBenefits = [
   { label: "Personalized Guidance", icon: GraduationCap },
   { label: "Expert Counsellors", icon: Users },
@@ -34,13 +35,16 @@ export default function App() {
   const popupRef = useRef(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [closeCount, setCloseCount] = useState(0);
+  const [activeStaticFormId, setActiveStaticFormId] = useState(null);
+  const [visibleStaticForms, setVisibleStaticForms] = useState({});
   const [hasSubmittedPopup, setHasSubmittedPopup] = useState(() => {
     if (typeof window === "undefined") return false;
     return localStorage.getItem(LEAD_POPUP_SUBMITTED_KEY) === "true";
   });
+  const shouldPausePopupForStaticForm = Boolean(activeStaticFormId && visibleStaticForms[activeStaticFormId] !== false);
 
   useEffect(() => {
-    if (!hasSubmittedPopup) {
+    if (!hasSubmittedPopup && !shouldPausePopupForStaticForm) {
       const popupTimer = window.setTimeout(() => {
         setIsPopupOpen(true);
       }, POPUP_INITIAL_DELAY);
@@ -49,7 +53,41 @@ export default function App() {
     }
 
     return undefined;
-  }, [hasSubmittedPopup]);
+  }, [hasSubmittedPopup, shouldPausePopupForStaticForm]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return undefined;
+
+    function updateStaticFormVisibility(formId, isVisible) {
+      setVisibleStaticForms((current) => {
+        if (current[formId] === isVisible) return current;
+        return { ...current, [formId]: isVisible };
+      });
+    }
+
+    if (!("IntersectionObserver" in window)) {
+      STATIC_FORM_IDS.forEach((formId) => updateStaticFormVisibility(formId, true));
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          updateStaticFormVisibility(entry.target.id, entry.isIntersecting);
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    STATIC_FORM_IDS.forEach((formId) => {
+      const form = document.getElementById(formId);
+      if (form) {
+        observer.observe(form);
+      }
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (isPopupOpen) {
@@ -61,7 +99,7 @@ export default function App() {
   }, [isPopupOpen]);
 
   useEffect(() => {
-    if (hasSubmittedPopup || isPopupOpen || closeCount === 0 || closeCount > POPUP_REPEAT_LIMIT) {
+    if (hasSubmittedPopup || shouldPausePopupForStaticForm || isPopupOpen || closeCount === 0 || closeCount > POPUP_REPEAT_LIMIT) {
       return undefined;
     }
 
@@ -70,7 +108,7 @@ export default function App() {
     }, POPUP_REPEAT_DELAY);
 
     return () => window.clearTimeout(popupTimer);
-  }, [closeCount, hasSubmittedPopup, isPopupOpen]);
+  }, [closeCount, hasSubmittedPopup, isPopupOpen, shouldPausePopupForStaticForm]);
 
   useEffect(() => {
     if (!isPopupOpen) return undefined;
@@ -123,9 +161,18 @@ export default function App() {
     setIsPopupOpen(true);
   }
 
-  function handlePopupSubmitSuccess() {
+  function handleStaticFormActive(formId) {
+    setActiveStaticFormId(formId);
+  }
+
+  function handleStaticFormInactive(formId) {
+    setActiveStaticFormId((currentFormId) => (currentFormId === formId ? null : currentFormId));
+  }
+
+  function handleLeadFormSubmitSuccess() {
     localStorage.setItem(LEAD_POPUP_SUBMITTED_KEY, "true");
     setHasSubmittedPopup(true);
+    setActiveStaticFormId(null);
     setIsPopupOpen(false);
   }
 
@@ -133,7 +180,11 @@ export default function App() {
     <>
       <Header />
       <main>
-        <Hero />
+        <Hero
+          onStaticFormActive={handleStaticFormActive}
+          onStaticFormInactive={handleStaticFormInactive}
+          onStaticFormSubmitSuccess={handleLeadFormSubmitSuccess}
+        />
         <Benefits />
         <CourseDetails />
         <Specializations />
@@ -141,7 +192,11 @@ export default function App() {
         <CareerOpportunities onCounsellingClick={handleCounsellingPopupOpen} />
         <HiringPartners />
         <Testimonials />
-        <Conversion />
+        <Conversion
+          onStaticFormActive={handleStaticFormActive}
+          onStaticFormInactive={handleStaticFormInactive}
+          onStaticFormSubmitSuccess={handleLeadFormSubmitSuccess}
+        />
         <AdmissionProcess />
         <Faq />
       </main>
@@ -189,7 +244,7 @@ export default function App() {
                 title="Get Free MBA Guidance"
                 subtitle="Share your details and our admission counsellor will contact you."
                 variant="popup"
-                onSubmitSuccess={handlePopupSubmitSuccess}
+                onSubmitSuccess={handleLeadFormSubmitSuccess}
               />
             </section>
           </div>
