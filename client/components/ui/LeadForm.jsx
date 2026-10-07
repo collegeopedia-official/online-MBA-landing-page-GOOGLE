@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { BookOpen, GraduationCap, Lock, Mail, Phone, User } from "lucide-react";
 import Button from "./Button.jsx";
+import { sendLeadEmail } from "../../utils/email.js";
 import { trackEvent } from "../../utils/tracking.js";
 
 const initialFields = {
@@ -42,6 +43,8 @@ export default function LeadForm({
   const [values, setValues] = useState(initialFields);
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const isPopup = variant === "popup";
   const hasIconFields = isPopup || variant === "hero";
 
@@ -51,6 +54,7 @@ export default function LeadForm({
     setValues((current) => ({ ...current, [name]: value }));
     setErrors((current) => ({ ...current, [name]: "" }));
     setSuccess(false);
+    setSubmitError("");
   }
 
   function handleFocus() {
@@ -63,17 +67,28 @@ export default function LeadForm({
     }
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
     const nextErrors = validate(values, includeExperience, includeEmail);
     setErrors(nextErrors);
+    setSubmitError("");
 
     if (Object.keys(nextErrors).length === 0) {
-      trackEvent("lead_form_submit", { formId: id, specialization: values.specialization });
-      setSuccess(true);
-      setValues(initialFields);
-      onFormInactive?.(id);
-      onSubmitSuccess?.();
+      setIsSubmitting(true);
+
+      try {
+        await sendLeadEmail(values, id);
+        trackEvent("lead_form_submit", { formId: id, specialization: values.specialization });
+        setSuccess(true);
+        setValues(initialFields);
+        onFormInactive?.(id);
+        onSubmitSuccess?.();
+      } catch (error) {
+        console.error("EmailJS lead form submit failed", error);
+        setSubmitError("Sorry, we couldn't submit your details right now. Please try again.");
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   }
 
@@ -196,11 +211,11 @@ export default function LeadForm({
         </label>
       )}
 
-      <Button type="submit" className="form-submit">
-        {buttonText}
+      <Button type="submit" className="form-submit" disabled={isSubmitting}>
+        {isSubmitting ? "Sending..." : buttonText}
       </Button>
 
-      {success && <p className="success-message">Thank you. Our admission counsellor will contact you shortly.</p>}
+      {submitError && <small>{submitError}</small>}
       <p className="form-trust">
         {isPopup && <Lock size={16} aria-hidden="true" />}
         <span>Your information is secure. No spam.</span>

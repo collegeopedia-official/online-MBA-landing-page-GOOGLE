@@ -27,7 +27,6 @@ export default function Conversion({ onStaticFormActive, onStaticFormInactive, o
               </>
             }
             subtitle="Share a few details and we'll help you with the best options, completely free."
-            includeEmail={false}
             buttonText="Request Counselling"
             variant="hero"
             onFormActive={onStaticFormActive}

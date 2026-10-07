@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ClipboardCheck, GraduationCap, Users, X } from "lucide-react";
+import { CheckCircle2, ClipboardCheck, GraduationCap, Users, X } from "lucide-react";
 import Header from "./components/layout/Header.jsx";
 import Footer from "./components/layout/Footer.jsx";
 import ChatBot from "./components/layout/ChatBot.jsx";
@@ -34,6 +34,7 @@ const popupBenefits = [
 export default function App() {
   const popupRef = useRef(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isSuccessPopupOpen, setIsSuccessPopupOpen] = useState(false);
   const [closeCount, setCloseCount] = useState(0);
   const [activeStaticFormId, setActiveStaticFormId] = useState(null);
   const [visibleStaticForms, setVisibleStaticForms] = useState({});
@@ -90,13 +91,13 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (isPopupOpen) {
+    if (isPopupOpen || isSuccessPopupOpen) {
       document.body.classList.add("lead-popup-open");
       return () => document.body.classList.remove("lead-popup-open");
     }
 
     document.body.classList.remove("lead-popup-open");
-  }, [isPopupOpen]);
+  }, [isPopupOpen, isSuccessPopupOpen]);
 
   useEffect(() => {
     if (hasSubmittedPopup || shouldPausePopupForStaticForm || isPopupOpen || closeCount === 0 || closeCount > POPUP_REPEAT_LIMIT) {
@@ -174,6 +175,11 @@ export default function App() {
     setHasSubmittedPopup(true);
     setActiveStaticFormId(null);
     setIsPopupOpen(false);
+    setIsSuccessPopupOpen(true);
+  }
+
+  function handleSuccessPopupClose() {
+    setIsSuccessPopupOpen(false);
   }
 
   return (
@@ -203,6 +209,23 @@ export default function App() {
       <Footer />
       <StickyApplyBar onApply={handleCounsellingPopupOpen} isModalOpen={isPopupOpen} />
       <ChatBot />
+      {isSuccessPopupOpen && (
+        <div className="submit-success-popup" role="dialog" aria-modal="true" aria-label="Form submission confirmation">
+          <div className="submit-success-panel">
+            <button className="submit-success-close" type="button" onClick={handleSuccessPopupClose} aria-label="Close confirmation">
+              <X size={22} aria-hidden="true" />
+            </button>
+            <span className="submit-success-icon" aria-hidden="true">
+              <CheckCircle2 size={36} />
+            </span>
+            <h2>Your query has been submitted</h2>
+            <p>Thank you for sharing your details. Our admission counsellor will contact you as soon as possible.</p>
+            <button className="submit-success-action" type="button" onClick={handleSuccessPopupClose}>
+              Okay
+            </button>
+          </div>
+        </div>
+      )}
       {isPopupOpen && !hasSubmittedPopup && (
         <div className="lead-popup" role="dialog" aria-modal="true" aria-label="MBA counselling form">
           <div className="lead-popup-panel" ref={popupRef}>

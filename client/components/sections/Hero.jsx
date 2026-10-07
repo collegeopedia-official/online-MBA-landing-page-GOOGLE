@@ -67,7 +67,6 @@ export default function Hero({ onStaticFormActive, onStaticFormInactive, onStati
               </>
             }
             subtitle="Share a few details and we'll help you with the best options, completely free."
-            includeEmail={false}
             buttonText="Get Free Counselling"
             variant="hero"
             onFormActive={onStaticFormActive}
